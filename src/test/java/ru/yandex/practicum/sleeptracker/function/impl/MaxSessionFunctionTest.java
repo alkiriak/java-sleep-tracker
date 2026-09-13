@@ -24,7 +24,7 @@ class MaxSessionFunctionTest {
                 SleepingSession.parse("02.10.25 22:00;03.10.25 07:30;BAD")     // 570 мин
         );
 
-        SleepAnalysisResult<Long> result = function.apply(sessions);
+        SleepAnalysisResult<Long> result = function.analyze(sessions);
 
         assertEquals(570L, result.result());
     }
@@ -32,7 +32,7 @@ class MaxSessionFunctionTest {
     @Test
     @DisplayName("Возврат null при поиске максимума в пустом списке")
     void shouldReturnNullOnEmptyList() {
-        SleepAnalysisResult<Long> result = function.apply(List.of());
+        SleepAnalysisResult<Long> result = function.analyze(List.of());
         assertNull(result.result());
     }
 }

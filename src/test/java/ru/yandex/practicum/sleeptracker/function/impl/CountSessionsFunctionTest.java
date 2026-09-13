@@ -23,7 +23,7 @@ class CountSessionsFunctionTest {
                 SleepingSession.parse("02.10.25 23:30;03.10.25 07:30;BAD")
         );
 
-        SleepAnalysisResult<Long> result = function.apply(sessions);
+        SleepAnalysisResult<Long> result = function.analyze(sessions);
 
         assertEquals(3L, result.result());
     }
@@ -31,7 +31,7 @@ class CountSessionsFunctionTest {
     @Test
     @DisplayName("Возврат 0 для пустого списка сессий")
     void shouldReturnZeroOnEmptyList() {
-        SleepAnalysisResult<Long> result = function.apply(List.of());
+        SleepAnalysisResult<Long> result = function.analyze(List.of());
         assertEquals(0L, result.result());
     }
 }

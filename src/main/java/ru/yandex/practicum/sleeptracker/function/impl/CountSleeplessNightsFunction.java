@@ -16,7 +16,7 @@ public class CountSleeplessNightsFunction implements SleepAnalysisFunction<Long>
     private static final String DESCRIPTION = "Количество бессонных ночей";
 
     @Override
-    public SleepAnalysisResult<Long> apply(List<SleepingSession> sessions) {
+    public SleepAnalysisResult<Long> analyze(List<SleepingSession> sessions) {
         if (sessions.isEmpty()) {
             return new SleepAnalysisResult<>(DESCRIPTION, 0L);
         }

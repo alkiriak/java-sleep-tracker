@@ -11,7 +11,7 @@ public class MinSessionFunction implements SleepAnalysisFunction<Long> {
     private static final String DESCRIPTION = "Минимальная продолжительность сессии (мин)";
 
     @Override
-    public SleepAnalysisResult<Long> apply(List<SleepingSession> sleepingSessions) {
+    public SleepAnalysisResult<Long> analyze(List<SleepingSession> sleepingSessions) {
         Long min = sleepingSessions.stream()
                 .map(SleepingSession::getDurationMinutes)
                 .min(Long::compareTo)

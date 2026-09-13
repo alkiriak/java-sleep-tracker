@@ -24,7 +24,7 @@ class MinSessionFunctionTest {
                 SleepingSession.parse("02.10.25 23:30;03.10.25 06:00;BAD")     // 390 мин
         );
 
-        SleepAnalysisResult<Long> result = function.apply(sessions);
+        SleepAnalysisResult<Long> result = function.analyze(sessions);
 
         assertEquals(40L, result.result());
     }
@@ -32,7 +32,7 @@ class MinSessionFunctionTest {
     @Test
     @DisplayName("Возврат null при поиске минимума в пустом списке")
     void shouldReturnNullOnEmptyList() {
-        SleepAnalysisResult<Long> result = function.apply(List.of());
+        SleepAnalysisResult<Long> result = function.analyze(List.of());
         assertNull(result.result());
     }
 }

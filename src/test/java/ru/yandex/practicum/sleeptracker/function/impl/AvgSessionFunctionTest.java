@@ -23,7 +23,7 @@ class AvgSessionFunctionTest {
                 SleepingSession.parse("02.10.25 14:00;02.10.25 14:30;NORMAL"), // 30 мин
                 SleepingSession.parse("02.10.25 23:30;03.10.25 06:00;BAD")     // 390 мин
         );
-        SleepAnalysisResult<Double> result = function.apply(sessions);
+        SleepAnalysisResult<Double> result = function.analyze(sessions);
 
         assertEquals(300.0, result.result());
     }
@@ -31,7 +31,7 @@ class AvgSessionFunctionTest {
     @Test
     @DisplayName("Возврат null при вычислении среднего в пустом списке")
     void shouldReturnNullOnEmptyList() {
-        SleepAnalysisResult<Double> result = function.apply(List.of());
+        SleepAnalysisResult<Double> result = function.analyze(List.of());
         assertNull(result.result());
     }
 }

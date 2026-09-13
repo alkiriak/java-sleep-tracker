@@ -11,7 +11,7 @@ public class CountSessionsFunction implements SleepAnalysisFunction<Long> {
     private static final String DESCRIPTION = "Всего сессий сна";
 
     @Override
-    public SleepAnalysisResult<Long> apply(List<SleepingSession> sleepingSessions) {
+    public SleepAnalysisResult<Long> analyze(List<SleepingSession> sleepingSessions) {
         long size = sleepingSessions.size();
         return new SleepAnalysisResult<>(DESCRIPTION, size);
     }

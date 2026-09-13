@@ -23,7 +23,7 @@ public class DetectChronotypeFunction implements SleepAnalysisFunction<Chronotyp
     private static final LocalTime LARK_WAKE_TIME = LocalTime.of(7, 0);
 
     @Override
-    public SleepAnalysisResult<Chronotype> apply(List<SleepingSession> sessions) {
+    public SleepAnalysisResult<Chronotype> analyze(List<SleepingSession> sessions) {
         Map<Chronotype, Long> counts = sessions.stream()
                 .filter(SleepingSession::isNightSession)
                 .map(this::classifySession)

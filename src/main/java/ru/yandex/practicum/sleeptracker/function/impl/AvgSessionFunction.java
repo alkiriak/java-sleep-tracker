@@ -12,7 +12,7 @@ public class AvgSessionFunction implements SleepAnalysisFunction<Double> {
     private static final String DESCRIPTION = "Средняя продолжительность сессии (мин)";
 
     @Override
-    public SleepAnalysisResult<Double> apply(List<SleepingSession> sleepingSessions) {
+    public SleepAnalysisResult<Double> analyze(List<SleepingSession> sleepingSessions) {
         OptionalDouble avg = sleepingSessions.stream()
                 .mapToLong(SleepingSession::getDurationMinutes)
                 .average();

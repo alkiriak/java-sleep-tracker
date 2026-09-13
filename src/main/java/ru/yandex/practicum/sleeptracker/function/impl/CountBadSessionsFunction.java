@@ -11,7 +11,7 @@ public class CountBadSessionsFunction implements SleepAnalysisFunction<Long> {
     private static final String DESCRIPTION = "Количество сессий с плохим качеством сна";
 
     @Override
-    public SleepAnalysisResult<Long> apply(List<SleepingSession> sleepingSessions) {
+    public SleepAnalysisResult<Long> analyze(List<SleepingSession> sleepingSessions) {
         long countBad = sleepingSessions.stream()
                 .filter(SleepingSession::isBad)
                 .count();

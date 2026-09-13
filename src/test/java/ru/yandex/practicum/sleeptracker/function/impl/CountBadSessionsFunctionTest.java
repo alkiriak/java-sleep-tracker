@@ -24,7 +24,7 @@ class CountBadSessionsFunctionTest {
                 SleepingSession.parse("03.10.25 23:30;04.10.25 06:20;BAD")
         );
 
-        SleepAnalysisResult<Long> result = function.apply(sessions);
+        SleepAnalysisResult<Long> result = function.analyze(sessions);
 
         assertEquals(2L, result.result());
     }
@@ -37,7 +37,7 @@ class CountBadSessionsFunctionTest {
                 SleepingSession.parse("02.10.25 14:00;02.10.25 15:00;NORMAL")
         );
 
-        SleepAnalysisResult<Long> result = function.apply(sessions);
+        SleepAnalysisResult<Long> result = function.analyze(sessions);
 
         assertEquals(0L, result.result());
     }

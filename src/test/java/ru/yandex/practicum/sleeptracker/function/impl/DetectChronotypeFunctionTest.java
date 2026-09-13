@@ -22,7 +22,7 @@ class DetectChronotypeFunctionTest {
                 SleepingSession.parse("01.10.25 23:30;02.10.25 09:30;GOOD"),
                 SleepingSession.parse("03.10.25 01:15;03.10.25 10:00;NORMAL")
         );
-        assertEquals(Chronotype.OWL, function.apply(sessions).result());
+        assertEquals(Chronotype.OWL, function.analyze(sessions).result());
     }
 
     @Test
@@ -32,7 +32,7 @@ class DetectChronotypeFunctionTest {
                 SleepingSession.parse("01.10.25 21:00;02.10.25 06:00;GOOD"),
                 SleepingSession.parse("02.10.25 21:30;03.10.25 06:30;GOOD")
         );
-        assertEquals(Chronotype.LARK, function.apply(sessions).result());
+        assertEquals(Chronotype.LARK, function.analyze(sessions).result());
     }
 
     @Test
@@ -42,7 +42,7 @@ class DetectChronotypeFunctionTest {
                 SleepingSession.parse("01.10.25 22:30;02.10.25 07:30;GOOD"),
                 SleepingSession.parse("02.10.25 23:15;03.10.25 08:00;NORMAL")
         );
-        assertEquals(Chronotype.DOVE, function.apply(sessions).result());
+        assertEquals(Chronotype.DOVE, function.analyze(sessions).result());
     }
 
     @Test
@@ -54,7 +54,7 @@ class DetectChronotypeFunctionTest {
                 SleepingSession.parse("03.10.25 21:00;04.10.25 06:30;GOOD"),   // Жаворонок
                 SleepingSession.parse("04.10.25 22:30;05.10.25 07:30;GOOD")    // Голубь
         );
-        assertEquals(Chronotype.OWL, function.apply(sessions).result());
+        assertEquals(Chronotype.OWL, function.analyze(sessions).result());
     }
 
     @Test
@@ -64,7 +64,7 @@ class DetectChronotypeFunctionTest {
                 SleepingSession.parse("01.10.25 23:30;02.10.25 09:30;GOOD"), // Сова
                 SleepingSession.parse("02.10.25 21:00;03.10.25 06:30;GOOD")  // Жаворонок
         );
-        assertEquals(Chronotype.DOVE, function.apply(sessions).result());
+        assertEquals(Chronotype.DOVE, function.analyze(sessions).result());
     }
 
     @Test
@@ -75,13 +75,13 @@ class DetectChronotypeFunctionTest {
                 SleepingSession.parse("02.10.25 13:00;02.10.25 14:00;NORMAL"),
                 SleepingSession.parse("02.10.25 21:30;03.10.25 06:00;GOOD") // 1 жаворонок
         );
-        assertEquals(Chronotype.LARK, function.apply(sessions).result());
+        assertEquals(Chronotype.LARK, function.analyze(sessions).result());
     }
 
     @Test
     @DisplayName("Определение хронотипа для пустого списка сессий возвращает 'Голубь'")
     void shouldReturnDoveForEmptySessionsList() {
-        SleepAnalysisResult<Chronotype> result = function.apply(List.of());
+        SleepAnalysisResult<Chronotype> result = function.analyze(List.of());
         assertEquals(Chronotype.DOVE, result.result());
     }
 }
