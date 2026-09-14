@@ -5,6 +5,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+import ru.yandex.practicum.sleeptracker.function.impl.AvgSessionFunction;
+import ru.yandex.practicum.sleeptracker.function.impl.CountBadSessionsFunction;
+import ru.yandex.practicum.sleeptracker.function.impl.CountSessionsFunction;
+import ru.yandex.practicum.sleeptracker.function.impl.CountSleeplessNightsFunction;
+import ru.yandex.practicum.sleeptracker.function.impl.DetectChronotypeFunction;
+import ru.yandex.practicum.sleeptracker.function.impl.MaxSessionFunction;
+import ru.yandex.practicum.sleeptracker.function.impl.MinSessionFunction;
+import ru.yandex.practicum.sleeptracker.model.Chronotype;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -12,6 +20,7 @@ import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SleepTrackerAppTest {
@@ -68,12 +77,34 @@ class SleepTrackerAppTest {
         SleepTrackerApp.main(new String[]{logFile.toString()});
 
         String output = outputCaptor.toString();
-        assertTrue(output.contains("Всего сессий сна: 4"));
-        assertTrue(output.contains("Минимальная продолжительность сессии (мин): 60"));
-        assertTrue(output.contains("Максимальная продолжительность сессии (мин): 540"));
-        assertTrue(output.contains("Средняя продолжительность сессии (мин): 300.0"));
-        assertTrue(output.contains("Количество сессий с плохим качеством сна: 1"));
-        assertTrue(output.contains("Количество бессонных ночей: 1"));
-        assertTrue(output.contains("Хронотип пользователя: Голубь"));
+        assertAll(
+                () -> assertTrue(output.contains(CountSessionsFunction.DESCRIPTION + ": 4")),
+                () -> assertTrue(output.contains(MinSessionFunction.DESCRIPTION + ": 60")),
+                () -> assertTrue(output.contains(MaxSessionFunction.DESCRIPTION + ": 540")),
+                () -> assertTrue(output.contains(AvgSessionFunction.DESCRIPTION + ": 300.0")),
+                () -> assertTrue(output.contains(CountBadSessionsFunction.DESCRIPTION + ": 1")),
+                () -> assertTrue(output.contains(CountSleeplessNightsFunction.DESCRIPTION + ": 1")),
+                () -> assertTrue(output.contains(DetectChronotypeFunction.DESCRIPTION + ": " + Chronotype.DOVE))
+        );
+    }
+
+    @Test
+    @DisplayName("Запуск main с пустым файлом и проверка корректного вывода метрик по умолчанию")
+    void shouldProcessEmptyFileAndPrintDefaultMetrics(@TempDir Path tempDir) throws IOException {
+        Path emptyLogFile = tempDir.resolve("empty_sleep.log");
+        Files.writeString(emptyLogFile, "");
+
+        SleepTrackerApp.main(new String[]{emptyLogFile.toString()});
+
+        String output = outputCaptor.toString();
+        assertAll(
+                () -> assertTrue(output.contains(CountSessionsFunction.DESCRIPTION + ": 0")),
+                () -> assertTrue(output.contains(MinSessionFunction.DESCRIPTION + ": N/A")),
+                () -> assertTrue(output.contains(MaxSessionFunction.DESCRIPTION + ": N/A")),
+                () -> assertTrue(output.contains(AvgSessionFunction.DESCRIPTION + ": N/A")),
+                () -> assertTrue(output.contains(CountBadSessionsFunction.DESCRIPTION + ": 0")),
+                () -> assertTrue(output.contains(CountSleeplessNightsFunction.DESCRIPTION + ": 0")),
+                () -> assertTrue(output.contains(DetectChronotypeFunction.DESCRIPTION + ": " + Chronotype.DOVE))
+        );
     }
 }

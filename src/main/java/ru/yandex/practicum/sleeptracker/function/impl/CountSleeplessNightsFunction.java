@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 public class CountSleeplessNightsFunction implements SleepAnalysisFunction<Long> {
 
-    private static final String DESCRIPTION = "Количество бессонных ночей";
+    public static final String DESCRIPTION = "Количество бессонных ночей";
 
     @Override
     public SleepAnalysisResult<Long> analyze(List<SleepingSession> sessions) {

@@ -5,18 +5,20 @@ import ru.yandex.practicum.sleeptracker.model.SleepAnalysisResult;
 import ru.yandex.practicum.sleeptracker.model.SleepingSession;
 
 import java.util.List;
-import java.util.OptionalDouble;
+import java.util.Optional;
 
 public class AvgSessionFunction implements SleepAnalysisFunction<Double> {
 
-    private static final String DESCRIPTION = "Средняя продолжительность сессии (мин)";
+    public static final String DESCRIPTION = "Средняя продолжительность сессии (мин)";
 
     @Override
     public SleepAnalysisResult<Double> analyze(List<SleepingSession> sleepingSessions) {
-        OptionalDouble avg = sleepingSessions.stream()
+        Optional<Double> avg = sleepingSessions.stream()
                 .mapToLong(SleepingSession::getDurationMinutes)
-                .average();
-        Double result = avg.isPresent() ? avg.getAsDouble() : null;
-        return new SleepAnalysisResult<>(DESCRIPTION, result);
+                .average()
+                .stream()
+                .boxed()
+                .findFirst();
+        return new SleepAnalysisResult<>(DESCRIPTION, avg);
     }
 }

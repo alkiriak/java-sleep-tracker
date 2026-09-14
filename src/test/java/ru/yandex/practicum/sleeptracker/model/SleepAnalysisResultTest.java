@@ -3,10 +3,24 @@ package ru.yandex.practicum.sleeptracker.model;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class SleepAnalysisResultTest {
+
+    @Test
+    @DisplayName("Конструктор от значения корректно оборачивает не-null и null значения в Optional")
+    void shouldWrapValueIntoOptionalCorrectly() {
+        SleepAnalysisResult<Long> presentResult = new SleepAnalysisResult<>("Total", 42L);
+        SleepAnalysisResult<Long> emptyResult = new SleepAnalysisResult<>("Total", (Long) null);
+
+        assertAll(
+                () -> assertEquals(Optional.of(42L), presentResult.result()),
+                () -> assertEquals(Optional.empty(), emptyResult.result())
+        );
+    }
 
     @Test
     @DisplayName("toDisplayString: корректное форматирование строк для различных типов данных")
@@ -14,7 +28,7 @@ class SleepAnalysisResultTest {
         SleepAnalysisResult<Double> doubleResult = new SleepAnalysisResult<>("Avg", 412.365);
         SleepAnalysisResult<Long> longResult = new SleepAnalysisResult<>("Max", 520L);
         SleepAnalysisResult<Chronotype> enumResult = new SleepAnalysisResult<>("Type", Chronotype.OWL);
-        SleepAnalysisResult<Long> nullResult = new SleepAnalysisResult<>("Min", null);
+        SleepAnalysisResult<Long> nullResult = new SleepAnalysisResult<>("Min", Optional.empty());
 
         assertAll(
                 () -> assertEquals("Avg: 412.4", doubleResult.toDisplayString()),

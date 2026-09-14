@@ -1,14 +1,15 @@
 package ru.yandex.practicum.sleeptracker.function.impl;
 
-import ru.yandex.practicum.sleeptracker.model.SleepAnalysisResult;
 import ru.yandex.practicum.sleeptracker.model.SleepingSession;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CountSleeplessNightsFunctionTest {
 
@@ -17,7 +18,9 @@ class CountSleeplessNightsFunctionTest {
     @Test
     @DisplayName("Пустой список сессий дает 0 бессонных ночей")
     void shouldReturnZeroOnEmptyList() {
-        assertEquals(0L, function.analyze(List.of()).result());
+        Optional<Long> result = function.analyze(List.of()).result();
+        assertTrue(result.isPresent());
+        assertEquals(0L, result.get());
     }
 
     @Test
@@ -27,7 +30,9 @@ class CountSleeplessNightsFunctionTest {
                 SleepingSession.parse("01.10.25 07:00;01.10.25 11:00;GOOD"),
                 SleepingSession.parse("01.10.25 23:00;02.10.25 07:00;GOOD")
         );
-        assertEquals(1L, function.analyze(sessions).result());
+        Optional<Long> result = function.analyze(sessions).result();
+        assertTrue(result.isPresent());
+        assertEquals(1L, result.get());
     }
 
     @Test
@@ -38,7 +43,9 @@ class CountSleeplessNightsFunctionTest {
                 SleepingSession.parse("02.10.25 17:00;02.10.25 23:00;GOOD"),
                 SleepingSession.parse("03.10.25 07:00;03.10.25 15:00;BAD")
         );
-        assertEquals(2L, function.analyze(sessions).result());
+        Optional<Long> result = function.analyze(sessions).result();
+        assertTrue(result.isPresent());
+        assertEquals(2L, result.get());
     }
 
     @Test
@@ -47,7 +54,9 @@ class CountSleeplessNightsFunctionTest {
         List<SleepingSession> sessions = List.of(
                 SleepingSession.parse("02.10.25 02:00;02.10.25 05:00;NORMAL")
         );
-        assertEquals(0L, function.analyze(sessions).result());
+        Optional<Long> result = function.analyze(sessions).result();
+        assertTrue(result.isPresent());
+        assertEquals(0L, result.get());
     }
 
     @Test
@@ -57,7 +66,9 @@ class CountSleeplessNightsFunctionTest {
                 SleepingSession.parse("01.10.25 23:00;02.10.25 00:00;GOOD"),
                 SleepingSession.parse("02.10.25 06:00;02.10.25 10:00;GOOD")
         );
-        assertEquals(1L, function.analyze(sessions).result());
+        Optional<Long> result = function.analyze(sessions).result();
+        assertTrue(result.isPresent());
+        assertEquals(1L, result.get());
     }
 
     @Test
@@ -67,7 +78,9 @@ class CountSleeplessNightsFunctionTest {
                 SleepingSession.parse("30.10.25 23:00;31.10.25 07:00;GOOD"),
                 SleepingSession.parse("01.11.25 23:00;02.11.25 07:00;GOOD")
         );
-        assertEquals(1L, function.analyze(sessions).result());
+        Optional<Long> result = function.analyze(sessions).result();
+        assertTrue(result.isPresent());
+        assertEquals(1L, result.get());
     }
 
     @Test
@@ -77,9 +90,8 @@ class CountSleeplessNightsFunctionTest {
                 SleepingSession.parse("30.12.25 23:00;31.12.25 07:00;GOOD"),
                 SleepingSession.parse("01.01.26 23:30;02.01.26 07:00;GOOD")
         );
-
-        SleepAnalysisResult<Long> result = function.analyze(sessions);
-
-        assertEquals(1L, result.result());
+        Optional<Long> result = function.analyze(sessions).result();
+        assertTrue(result.isPresent());
+        assertEquals(1L, result.get());
     }
 }

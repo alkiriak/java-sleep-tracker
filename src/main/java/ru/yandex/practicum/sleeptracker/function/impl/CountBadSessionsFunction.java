@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CountBadSessionsFunction implements SleepAnalysisFunction<Long> {
 
-    private static final String DESCRIPTION = "Количество сессий с плохим качеством сна";
+    public static final String DESCRIPTION = "Количество сессий с плохим качеством сна";
 
     @Override
     public SleepAnalysisResult<Long> analyze(List<SleepingSession> sleepingSessions) {

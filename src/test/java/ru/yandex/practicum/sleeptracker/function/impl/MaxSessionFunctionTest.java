@@ -1,15 +1,15 @@
 package ru.yandex.practicum.sleeptracker.function.impl;
 
-import ru.yandex.practicum.sleeptracker.model.SleepAnalysisResult;
 import ru.yandex.practicum.sleeptracker.model.SleepingSession;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MaxSessionFunctionTest {
 
@@ -24,15 +24,16 @@ class MaxSessionFunctionTest {
                 SleepingSession.parse("02.10.25 22:00;03.10.25 07:30;BAD")     // 570 мин
         );
 
-        SleepAnalysisResult<Long> result = function.analyze(sessions);
+        Optional<Long> result = function.analyze(sessions).result();
 
-        assertEquals(570L, result.result());
+        assertTrue(result.isPresent());
+        assertEquals(570L, result.get());
     }
 
     @Test
     @DisplayName("Возврат null при поиске максимума в пустом списке")
     void shouldReturnNullOnEmptyList() {
-        SleepAnalysisResult<Long> result = function.analyze(List.of());
-        assertNull(result.result());
+        Optional<Long> result = function.analyze(List.of()).result();
+        assertTrue(result.isEmpty());
     }
 }

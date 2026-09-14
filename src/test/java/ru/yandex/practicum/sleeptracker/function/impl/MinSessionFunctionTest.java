@@ -1,15 +1,15 @@
 package ru.yandex.practicum.sleeptracker.function.impl;
 
-import ru.yandex.practicum.sleeptracker.model.SleepAnalysisResult;
 import ru.yandex.practicum.sleeptracker.model.SleepingSession;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MinSessionFunctionTest {
 
@@ -24,15 +24,16 @@ class MinSessionFunctionTest {
                 SleepingSession.parse("02.10.25 23:30;03.10.25 06:00;BAD")     // 390 мин
         );
 
-        SleepAnalysisResult<Long> result = function.analyze(sessions);
+        Optional<Long> result = function.analyze(sessions).result();
 
-        assertEquals(40L, result.result());
+        assertTrue(result.isPresent());
+        assertEquals(40L, result.get());
     }
 
     @Test
     @DisplayName("Возврат null при поиске минимума в пустом списке")
     void shouldReturnNullOnEmptyList() {
-        SleepAnalysisResult<Long> result = function.analyze(List.of());
-        assertNull(result.result());
+        Optional<Long> result = function.analyze(List.of()).result();
+        assertTrue(result.isEmpty());
     }
 }

@@ -1,14 +1,15 @@
 package ru.yandex.practicum.sleeptracker.function.impl;
 
-import ru.yandex.practicum.sleeptracker.model.SleepAnalysisResult;
 import ru.yandex.practicum.sleeptracker.model.SleepingSession;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class CountSessionsFunctionTest {
 
@@ -23,15 +24,17 @@ class CountSessionsFunctionTest {
                 SleepingSession.parse("02.10.25 23:30;03.10.25 07:30;BAD")
         );
 
-        SleepAnalysisResult<Long> result = function.analyze(sessions);
+        Optional<Long> result = function.analyze(sessions).result();
 
-        assertEquals(3L, result.result());
+        assertTrue(result.isPresent());
+        assertEquals(3L, result.get());
     }
 
     @Test
     @DisplayName("Возврат 0 для пустого списка сессий")
     void shouldReturnZeroOnEmptyList() {
-        SleepAnalysisResult<Long> result = function.analyze(List.of());
-        assertEquals(0L, result.result());
+        Optional<Long> result = function.analyze(List.of()).result();
+        assertTrue(result.isPresent());
+        assertEquals(0L, result.get());
     }
 }

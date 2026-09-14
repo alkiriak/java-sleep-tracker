@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 public class DetectChronotypeFunction implements SleepAnalysisFunction<Chronotype> {
 
-    private static final String DESCRIPTION = "Хронотип пользователя";
+    public static final String DESCRIPTION = "Хронотип пользователя";
 
     private static final LocalTime OWL_BED_TIME = LocalTime.of(23, 0);
     private static final LocalTime OWL_WAKE_TIME = LocalTime.of(9, 0);
